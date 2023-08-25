@@ -1,28 +1,3 @@
-/* Pseudocode for Paper Rock Scissors Game
-Get Player Choice
-Get random Computer Choice
-    Get number between 1-100
-    if 0-33 rock
-    if 34-66 paper
-    if 67-100 scissors
-Compare the two choices to determine player result
-    If player has paper
-        and cpu has paper - tie
-        and cpu has rock - Player wins!
-        and cpu has scissors - Player loses
-    If player has rock
-        and cpu has paper - Player loses
-        and cpu has rock - tie
-        and cpu has scissors - Player wins!
-    If player has scissors
-        and cpu has paper - Player wins!
-        and cpu has rock - Player loses
-        and cpu has scissors - tie
-    If player has something else (if possible)
-        Need to choose an approved weapon 
-            game does not continue
-Start a New Game
-*/
 
 function getCpuSelection() {
     let cpuChoice = Math.floor((Math.random() * 100) + 1);
@@ -34,8 +9,6 @@ function getCpuSelection() {
         return 'scissors'
     }
 }
-
-
 
 function playRound(playerSelection, cpuSelection) {
 
@@ -71,22 +44,6 @@ function playRound(playerSelection, cpuSelection) {
     return roundResult;
 }
 
-
-
-/* Pseudocode for Game Function
-    Play Round 1
-        return Winner
-            if winner = player
-                playerTally ++
-                display 'You win etc.
-            if winner = cpu
-                cpuTally ++
-                display 'You lose etc
-            if tie
-                display 'Its a tie, noone gets any points
-    Do the above for Rounds 2 - 5
-    Display final results and declaration of overall winner (the person that has the highest number in their win tally)
-*/
 
 function game() {
     let playerTally = 0;
