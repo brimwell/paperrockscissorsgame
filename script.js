@@ -1,3 +1,35 @@
+let playerTally = 0;
+let cpuTally = 0;
+let roundNumber = 0;
+
+const gameOn = document.querySelector('#gameon');
+const gameOff = document.querySelector('#gameoff');
+const newGame = document.querySelector('#newGame');
+
+const thisRound = document.querySelector('#thisRound');
+const runningTally = document.querySelector('#runningTally');
+const winner = document.querySelector('#overallWinner');
+
+const startGame = document.querySelector('#start');
+const startNewGame = document.querySelector('#startNewGame');
+
+const buttons = document.querySelectorAll('.selector');
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => playRound(button.id));
+});
+startGame.addEventListener('click', () => beginGame());
+startNewGame.addEventListener('click', () => beginNewGame());
+
+
+
+function beginGame() {
+    gameOn.classList.toggle("hidden");
+    gameOff.classList.toggle("hidden");
+}
+
+
+
 
 function getCpuSelection() {
     let cpuChoice = Math.floor((Math.random() * 100) + 1);
@@ -10,75 +42,90 @@ function getCpuSelection() {
     }
 }
 
-function playRound(playerSelection, cpuSelection) {
+function disableBtn() {
+    document.getElementById('rock').disabled = true;
+    document.getElementById('paper').disabled = true;
+    document.getElementById('scissors').disabled = true;
+}
 
+function enableBtn() {
+    document.getElementById('rock').disabled = false;
+    document.getElementById('paper').disabled = false;
+    document.getElementById('scissors').disabled = false;
+}
+
+function gameOver(cpuTally, playerTally) {
+    if (cpuTally >= 5) {
+        winner.textContent = 'The computer has won the game.';
+    };
+    if (playerTally >= 5) {
+        winner.textContent = 'Congrats! You have won the game.';
+    };
+    disableBtn();
+    newGame.classList.toggle("hidden");
+}
+
+function playRound(playerSelection) {
     let roundResult;
+    let cpuSelection = getCpuSelection();
 
     if (playerSelection === 'rock') {
         if (cpuSelection === 'rock') {
-            roundResult = 'tie';
+            roundResult = 'It\'s a tie!';
         } else if (cpuSelection === 'paper') {
-            roundResult = 'cpu';
+            roundResult = 'The computer wins.';
+            cpuTally++;
         } else {
-            roundResult = 'player';
+            roundResult = 'You win this round!';
+            playerTally++;
         }
     } else if (playerSelection === 'paper') {
         if (cpuSelection === 'rock') {
-            roundResult = 'player';
+            roundResult = 'You win this round!';
+            playerTally++;
         }   else if (cpuSelection === 'paper') {
-            roundResult = 'tie';
+            roundResult = 'It\'s a tie!';
         }   else {
-            roundResult = 'cpu';
+            roundResult = 'The computer wins.';
+            cpuTally++;
         }
     } else if (playerSelection === 'scissors') {
         if (cpuSelection === 'rock') {
-            roundResult = 'cpu';
+            roundResult = 'The computer wins.';
+            cpuTally++;
         } else if (cpuSelection === 'paper') {
-            roundResult = 'player';
+            roundResult = 'You win this round!';
+            playerTally++;
         } else {
-            roundResult = 'tie';
+            roundResult = 'It\'s a tie!';
         }
     } else {
-        roundResult = 'invalid'
-    }
-    return roundResult;
+        roundResult = 'There was an error somewhere...'
+    };
+    roundNumber++;
+    const round = document.createElement('p');
+    round.textContent = `Round ${roundNumber}: ${roundResult}`;
+    thisRound.appendChild(round);
+
+    const tally = document.createElement('p');
+    tally.textContent = `You: ${playerTally} --- Computer: ${cpuTally}`;
+    runningTally.replaceChildren(tally);
+
+    if (cpuTally === 5 || playerTally === 5) {
+        gameOver(cpuTally, playerTally);
+    };
+    
 }
 
 
-function game() {
-    let playerTally = 0;
-    let cpuTally = 0;
-    let cpuSelection;
-    let playerSelection;
-
-    for (i = 0; i < 5; i++) {
-        cpuSelection = getCpuSelection();
-        playerSelection = prompt('For this round, choose either rock, paper, or scissors.');
-        playerSelection = playerSelection.toLowerCase();
-        let roundOne = playRound(playerSelection, cpuSelection);
-        if (roundOne === 'invalid') {
-            console.log('You entered an invalid choice. You MUST enter rock, paper, or scissors. No points awarded.');
-        } else if (roundOne === 'tie') {
-            console.log('This round was a tie. No points awarded.')
-        } else if (roundOne === 'player') {
-            console.log(`You won this round! ${playerSelection} beats ${cpuSelection}. One point awarded to you.`);
-            playerTally++;
-        } else if (roundOne === 'cpu') {
-            console.log(`You lost this round. ${cpuSelection} beats ${playerSelection}.`);
-            cpuTally++;
-        } else {
-            console.log('There appears to be something wrong.')
-        };
-    }
-
-    console.log(`The final score is --  You: ${playerTally}  Computer: ${cpuTally}`);
-    if (playerTally > cpuTally) {
-        console.log('You are the champion!');
-    } else if (playerTally < cpuTally) {
-        console.log('You have lost. You are not the champion.');
-    } else {
-        console.log('It was a tie. Well played.');
-    }
+function beginNewGame() {
+    cpuTally = 0;
+    playerTally = 0;
+    roundNumber = 0;
+    runningTally.replaceChildren('');
+    thisRound.replaceChildren('');
+    winner.replaceChildren('Who Will Be the Winner??');
+    newGame.classList.toggle('hidden');
+    enableBtn();
 }
 
-game();

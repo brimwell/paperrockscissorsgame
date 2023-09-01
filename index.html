@@ -4,13 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game of Games</title>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div id='selectors'>
-        <button id="rock" class="btn">Rock</button>
-        <button id="paper" class="btn">Paper</button>
-        <button id="scissors" class="btn">Scissors</button>
+    <h1>Play a Game of Rock, Paper, Scissors</h1>
+
+    <div id= "gameon" class="hidden">
+        <p>First player to 5 wins! Choose your selection below.</p>
+
+        <div id='selectors'>
+            <button id="rock" class="btn selector">Rock</button>
+            <button id="paper" class="btn selector">Paper</button>
+            <button id="scissors" class="btn selector">Scissors</button>
+        </div>
+
+        <div class="container">
+            <div class="leftside">
+                <div id="thisRound"></div>
+            </div>
+            <div class="rightside">
+                <div id="runningTally"></div>
+                <div>
+                    <h2 id="overallWinner">Who Will Be The Winner??</h2>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="gameoff" class="">
+        <button id="start" class="btn">Start Game</button>
+    </div>
+
+    <div id="newGame" class="hidden">
+        <button id="startNewGame" class="btn">Start a New Game</button>
     </div>
     
 </body>
